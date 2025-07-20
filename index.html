@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ドット絵 横スクロールシューティング</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        
+        #gameContainer {
+            position: relative;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 20px #00ffff;
+        }
+        
+        #gameCanvas {
+            display: block;
+            background: #000;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #00ffff;
+            font-size: 18px;
+            text-shadow: 0 0 10px #00ffff;
+        }
+        
+        #gameOver {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ff0000;
+            font-size: 36px;
+            text-align: center;
+            display: none;
+            text-shadow: 0 0 20px #ff0000;
+        }
+        
+        #instructions {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            color: #ffff00;
+            font-size: 14px;
+            text-shadow: 0 0 5px #ffff00;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="800" height="480"></canvas>
+        
+        <!-- ゲーム音楽 -->
+        <audio id="bgMusic" loop>
+            <!-- フォールバック：様々な音楽ファイル形式をサポート -->
+            <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+            <!-- Web Audio APIで生成したサウンドを使用する予定 -->
+        </audio>
+        
+        <!-- 効果音用 -->
+        <audio id="shootSound" preload="auto">
+            <!-- プレイヤー射撃音 -->
+        </audio>
+        <audio id="explosionSound" preload="auto">
+            <!-- 爆発音 -->
+        </audio>
+        <audio id="powerupSound" preload="auto">
+            <!-- パワーアップ取得音 -->
+        </audio>
+        
+        <div id="ui">
+            <div>スコア: <span id="score">0</span></div>
+            <div>HP: <span id="health">100</span></div>
+            <div>レベル: <span id="level">1</span></div>
+            <div>敵の数: <span id="enemyCount">0</span></div>
+            <div style="font-size: 14px; margin-top: 5px;">
+                <div id="enemyTypes">通常:<span id="normal">0</span> 高速:<span id="fast">0</span> 装甲:<span id="armored">0</span></div>
+                <div>ドローン:<span id="drone">0</span> 狙撃:<span id="sniper">0</span> 大型:<span id="large">0</span> ボス:<span id="boss">0</span></div>
+            </div>
+            <div style="font-size: 12px; margin-top: 10px; color: #ffff88;">
+                🎵 音楽: <span id="musicStatus">ON</span> (Mキーで切替)
+            </div>
+        </div>
+        <div id="gameOver">
+            <div>ゲームオーバー</div>
+            <div style="font-size: 18px; margin-top: 10px;">Spaceキーでリスタート</div>
+        </div>
+        <div id="instructions">
+            ↑↓: 移動 | Space: 連射 | マウス: エイム | 緑アイテム: 回復 | M: 音楽ON/OFF
+        </div>
+    </div>
+    
+    <script src="game.js"></script>
+</body>
+</html>
